@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TicketSalesApi.Models
@@ -7,6 +8,7 @@ namespace TicketSalesApi.Models
     {
         public DateTime Date { get; set; }
         public List<OrderItem> OrderItems { get; set; }
+        [Precision(13,2)]
         public decimal TotalAmount { get; set; }
     }
 }

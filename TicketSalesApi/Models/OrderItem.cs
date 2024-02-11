@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TicketSalesApi.Models
@@ -10,6 +11,7 @@ namespace TicketSalesApi.Models
         public int TicketId { get; set; }
         public virtual Ticket Ticket { get; set; }
         public int Quantity { get; set; }
+        [Precision(13, 2)]
         public decimal Subtotal { get; set; }
     }
 }
