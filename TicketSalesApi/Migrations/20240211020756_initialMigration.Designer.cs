@@ -12,8 +12,8 @@ using TicketSalesApi.Context;
 namespace TicketSalesApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240210025642_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240211020756_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,22 +24,6 @@ namespace TicketSalesApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("TicketSalesApi.Models.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Client");
-                });
 
             modelBuilder.Entity("TicketSalesApi.Models.Event", b =>
                 {
@@ -89,15 +73,14 @@ namespace TicketSalesApi.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<decimal>("TotalAmount")
+                        .HasPrecision(13, 2)
+                        .HasColumnType("decimal(13,2)");
 
-                    b.HasIndex("ClientId");
+                    b.HasKey("Id");
 
                     b.ToTable("Orders");
                 });
@@ -118,6 +101,10 @@ namespace TicketSalesApi.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasPrecision(13, 2)
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
@@ -166,21 +153,10 @@ namespace TicketSalesApi.Migrations
                     b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("TicketSalesApi.Models.Order", b =>
-                {
-                    b.HasOne("TicketSalesApi.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
             modelBuilder.Entity("TicketSalesApi.Models.OrderItem", b =>
                 {
                     b.HasOne("TicketSalesApi.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -205,6 +181,11 @@ namespace TicketSalesApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("TicketSalesApi.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

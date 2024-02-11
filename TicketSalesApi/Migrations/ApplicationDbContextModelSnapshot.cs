@@ -74,7 +74,8 @@ namespace TicketSalesApi.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(13, 2)
+                        .HasColumnType("decimal(13,2)");
 
                     b.HasKey("Id");
 
@@ -99,7 +100,8 @@ namespace TicketSalesApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(13, 2)
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
