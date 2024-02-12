@@ -43,7 +43,7 @@ namespace TicketSalesApi.Controllers
             return Ok(ticket);
         }
 
-        [HttpGet("/dfasd")]
+        [HttpGet("list")]
         [ProducesResponseType(200, Type = typeof(Ticket))]
         public async Task<IActionResult> GetByListIdAsync([FromBody]IEnumerable<int> listId)
         {
